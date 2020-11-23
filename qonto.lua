@@ -32,7 +32,7 @@ WebBanking {
     version = 1.00,
     url = "https://app.qonto.com/",
     services = {"Qonto API"},
-    description = "Qonto is a French neobank for freelancers and SMEs."
+    description = "Qonto is a European neobank for freelancers and SMEs."
 }
 
 function SupportsBank(protocol, bankCode)
@@ -49,7 +49,7 @@ function InitializeSession(protocol, bankCode, username, username2, password,
     orgSlug = username
     auth = username .. ":" .. password
 
-    -- check if it is valid
+    -- try to fetch organization object
     local fetchedOrg = JSON(Connection():request("GET",
                                                  "https://thirdparty.qonto.com/v2/organizations/" ..
                                                      orgSlug, nil, nil, {
@@ -57,13 +57,27 @@ function InitializeSession(protocol, bankCode, username, username2, password,
         Authorization = auth
     })):dictionary()
 
-    -- Login OK?
-    if fetchedOrg["organization"]["slug"] == orgSlug then return nil end
+    local failure = nil
 
-    -- We failed
-    orgSlug = nil
-    auth = nil
-    return LoginFailed
+    -- check for french bank accounts
+    for i, fetchedAccount in ipairs(fetchedOrg["organization"]["bank_accounts"]) do
+        if fetchedAccount["iban"]:sub(1, 2):upper() == "FR" then
+            failure =
+                "Due to export restrictions, French Qonto customers are currently not supported."
+        end
+    end
+
+    -- Login OK?
+    if fetchedOrg["organization"]["slug"] ~= orgSlug then
+        failure = LoginFailed
+    end
+
+    -- Did we fail?
+    if failure ~= nil then
+        orgSlug = nil
+        auth = nil
+        return failure
+    end
 end
 
 function ListAccounts(knownAccounts)
@@ -201,5 +215,3 @@ function EndSession()
     auth = nil
 
 end
-
--- SIGNATURE: MC0CFCUL0H6plPZZYyNYotLYUz6f9qSVAhUAiaSuIL+PHKDt11Yr8HgMByioJBU=

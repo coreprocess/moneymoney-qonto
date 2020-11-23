@@ -2,7 +2,7 @@
 
 [MoneyMoney](https://moneymoney-app.com/) is a user-friendly banking application for macOS.
 
-[Qonto](https://app.qonto.com/) is a French neobank for freelancers and SMEs.
+[Qonto](https://app.qonto.com/) is a European neobank for freelancers and SMEs.
 
 ## Installation
 
