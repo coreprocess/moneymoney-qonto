@@ -1,12 +1,12 @@
 --
 -- MoneyMoney Web Banking Extension for Qonto
--- 
+--
 -- http://moneymoney-app.com/api/webbanking
 -- https://app.qonto.com/
 --
 --
 -- The MIT License
--- 
+--
 -- Copyright 2020 Niklas Salmoukas
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -201,3 +201,5 @@ function EndSession()
     auth = nil
 
 end
+
+-- SIGNATURE: MC0CFCUL0H6plPZZYyNYotLYUz6f9qSVAhUAiaSuIL+PHKDt11Yr8HgMByioJBU=
