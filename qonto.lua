@@ -65,7 +65,7 @@ function InitializeSession(protocol, bankCode, username, username2, password,
     end
 
     -- check for french bank accounts
-    if fetchedOrg["organization"] ~= nil then
+    if failure ~= nil then
         for i, fetchedAccount in ipairs(fetchedOrg["organization"]["bank_accounts"]) do
             if fetchedAccount["iban"]:sub(1, 2):upper() == "FR" then
                 failure =
