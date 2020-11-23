@@ -59,17 +59,19 @@ function InitializeSession(protocol, bankCode, username, username2, password,
 
     local failure = nil
 
-    -- check for french bank accounts
-    for i, fetchedAccount in ipairs(fetchedOrg["organization"]["bank_accounts"]) do
-        if fetchedAccount["iban"]:sub(1, 2):upper() == "FR" then
-            failure =
-                "Due to export restrictions, French Qonto customers are currently not supported."
-        end
+    -- Login OK?
+    if (fetchedOrg["organization"] == nil or fetchedOrg["organization"]["slug"] ~= orgSlug) then
+        failure = LoginFailed
     end
 
-    -- Login OK?
-    if fetchedOrg["organization"]["slug"] ~= orgSlug then
-        failure = LoginFailed
+    -- check for french bank accounts
+    if fetchedOrg["organization"] ~= nil then
+        for i, fetchedAccount in ipairs(fetchedOrg["organization"]["bank_accounts"]) do
+            if fetchedAccount["iban"]:sub(1, 2):upper() == "FR" then
+                failure =
+                    "Due to export restrictions, French Qonto customers are currently not supported."
+            end
+        end
     end
 
     -- Did we fail?
