@@ -217,3 +217,5 @@ function EndSession()
     auth = nil
 
 end
+
+-- SIGNATURE: MCwCFAN9NfeZcXj1oIDBVLg59NJ7MyV0AhRLbVPDreva6I+Cm03OcWrXQw8sBQ==
